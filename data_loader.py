@@ -71,41 +71,20 @@ def load_and_preprocess(n_train=30000, n_test=2000, image_size=128):
         filename = 'data/stage_2_train_images/' + str(train_image_names[i].decode("utf-8") + '.dcm')
         img = pydicom.dcmread(filename)
         img = np.asarray(img.pixel_array)
-
-
         train_mask = np.zeros((1000, 1000))
         train_mask = np.asarray(train_mask)
-
-
-
-
         if(train_labels[i]==1):
             cur_x = train_x_min[i]
             cur_y = train_y_min[i]
             w = train_width[i]
             h = train_height[i]
-            # print(cur_x, cur_y, w, h)
-
             train_mask[cur_y:cur_y+h, cur_x:cur_x+w] = 1
-
-
 
         img = resize(img, (image_size, image_size))
         train_mask = resize(train_mask, (13, 13))
         train_mask[train_mask > 0] = 1
-
-        # a = np.sum(train_mask)
-        # print(a)
-        # print(train_mask)
-
         train_data.append(img)
         train_masks.append(train_mask)
-
-
-        # plt.figure()
-        # plt.imshow(train_mask*255, cmap=plt.cm.bone)
-        # plt.draw()
-        # plt.waitforbuttonpress()
 
     train_data = np.asarray(train_data)
     train_masks = np.asarray(train_masks)
@@ -118,11 +97,8 @@ def load_and_preprocess(n_train=30000, n_test=2000, image_size=128):
         img = pydicom.dcmread(filename)
         img = np.asarray(img.pixel_array)
 
-
         test_mask = np.zeros((1000, 1000))
         test_mask = np.asarray(test_mask)
-
-        # print(train_x_min[i], train_y_min[i], train_width[i], train_height[i])
 
         if (train_labels[i] == 1):
             cur_x = test_x_min[i]
@@ -141,7 +117,6 @@ def load_and_preprocess(n_train=30000, n_test=2000, image_size=128):
     test_data = np.asarray(test_data)
     test_masks = np.asarray(test_masks)
 
-
     # Save the preprocessed and resized images into a pickle for faster loading
     with open("dataset.pickle", "wb") as f:
         pickle.dump(train_data, f, pickle.HIGHEST_PROTOCOL)
@@ -152,8 +127,6 @@ def load_and_preprocess(n_train=30000, n_test=2000, image_size=128):
         pickle.dump(test_masks, f, pickle.HIGHEST_PROTOCOL)
 
 
-
-
 def load_data():
     with open("dataset.pickle", "rb") as f:
         train_data = pickle.load(f)
@@ -162,13 +135,7 @@ def load_data():
         test_data = pickle.load(f)
         test_labels = pickle.load(f)
         test_masks = pickle.load(f)
-
-
-
     return train_data, train_masks, train_labels, test_data, test_labels, test_masks
-
-
-
 
 def show_images(data, labels):
     for i in range(10):
@@ -176,7 +143,6 @@ def show_images(data, labels):
         plt.imshow(data[i], cmap=plt.cm.bone)
         plt.show()
         print("Labels is ", labels[i])
-
 
 
 # load_and_preprocess()
