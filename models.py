@@ -7,9 +7,6 @@ from keras.layers import GlobalMaxPooling2D
 import keras.backend as K
 from data_loader import load_data
 
-
-
-
 def binary_crossentropy(y_true, y_pred):
     return K.mean(-10 * y_true * K.log(y_pred) - (1 - y_true) * K.log(1 - y_pred))
 
@@ -87,20 +84,6 @@ def evaluate_mask_model(model, data, masks):
     print("Precision is: ", np.mean(precision), "+-", np.std(precision))
     print("Recall is: ", np.mean(recall), "+-",  np.std(recall))
     print("f1:", np.mean(f1))
-
-    # Create plot
-    # plt.plot(precision, recall, label='Precision-recall curve')
-    # plt.xlabel('Precision')
-    # plt.ylabel('Recall')
-    # plt.title('Precision-recall curve')
-    # plt.xlim([0.735, 1])
-    # plt.ylim([0, 1.02])
-    # plt.legend(loc="lower left")
-
-    # Save figure
-    # plt.savefig('precision_recall.png', dpi=200)
-
-
 
 
 def create_model_pneumonia_fc():
