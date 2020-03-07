@@ -2,7 +2,6 @@ import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
-
 from exps.data_loader import load_data
 
 train_data, train_masks, train_labels, test_data, test_labels, test_masks = load_data()
@@ -25,17 +24,13 @@ def create_model():
 
     model.add(MaxPooling2D(pool_size=(3,3)))
     #model.add(BatchNormalization())
-
-
     model.add(Dropout(0.1))
-
     model.add(Conv2D(64, (2, 2),strides=(1,1), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.1))
     model.add(Conv2D(64, (2, 2), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.1))
-
     #model.add(GlobalMaxPooling2D())
     model.add(Flatten())
     model.add(Dense(64, activation='relu'))
@@ -49,14 +44,10 @@ def create_model():
     return model
 
 
-
-
 def evaluate_model(model):
     class_weight = {0: 1.,
                    1: 1.2,
                     }
-
-
     model.fit(train_data, train_labels,
               batch_size=128,
               epochs=15,
@@ -66,18 +57,6 @@ def evaluate_model(model):
     test_score = model.evaluate(test_data, test_labels, verbose=0)
     return train_score, test_score
 
-#
-# model = create_model(64)
-# print(evaluate_model(model))
-# model = create_model(128)
-# print(evaluate_model(model))
-# model = create_model(256)
-# print(evaluate_model(model))
-# model = create_model(512)
-# print(evaluate_model(model))
 
 model = create_model()
-#print(model.summary())
-# assert False
-
 print(evaluate_model(model))
